@@ -425,14 +425,14 @@ def create_artist_submission():
     facelink = request.form.get('facebook_link','')
     artist = Artist(name=name1,city=city1,state=state1,phone=phone1,image_link=imagelink,genres=generes1,facebook_link=facelink)
     # called upon submitting the new artist listing form
-    # TODO: insert form data as a new Venue record in the db, instead
+    # Done: insert form data as a new Venue record in the db, instead
     db.session.add(artist)
     db.session.commit()
-    # TODO: modify data to be the data object returned from db insertion
+    # Done: modify data to be the data object returned from db insertion
 
     # on successful db insert, flash success
     flash('Artist ' + request.form['name'] + ' was successfully listed!')
-  # TODO: on unsuccessful db insert, flash an error instead.
+  # Done: on unsuccessful db insert, flash an error instead.
   except:
     error= True
     flash('Artist ' + request.form['name'] + ' could not be listed.')
