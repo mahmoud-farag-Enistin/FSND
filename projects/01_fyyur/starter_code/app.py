@@ -434,10 +434,12 @@ def create_artist_submission():
     flash('Artist ' + request.form['name'] + ' was successfully listed!')
   # Done: on unsuccessful db insert, flash an error instead.
   except:
+    db.session.Rollback()
     error= True
     flash('Artist ' + request.form['name'] + ' could not be listed.')
   # e.g., flash('An error occurred. Artist ' + data.name + ' could not be listed.')
   finally:
+    db.session.close()
     return render_template('pages/home.html')
 
 
