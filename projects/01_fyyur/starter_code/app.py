@@ -43,7 +43,7 @@ class Venue(db.Model):
     facebook_link = db.Column(db.String(120))
 
     # done: implement any missing fields, as a database migration using Flask-Migrate
-db.create_all()
+
 
 class Artist(db.Model):
     __tablename__ = 'Artist'
@@ -58,7 +58,7 @@ class Artist(db.Model):
     facebook_link = db.Column(db.String(120))
 
     # TODO: implement any missing fields, as a database migration using Flask-Migrate
-db.create_all()
+
 # TODO Implement Show and Artist models, and complete all model relationships and properties, as a database migration.
 
 #----------------------------------------------------------------------------#
