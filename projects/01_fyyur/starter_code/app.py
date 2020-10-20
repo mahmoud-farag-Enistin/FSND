@@ -8,6 +8,7 @@ import babel
 from flask import Flask, render_template, request, Response, flash, redirect, url_for
 from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import Column, Integer, ForeignKey, Numeric, String
 import logging
 from logging import Formatter, FileHandler
 from flask_wtf import Form
@@ -24,7 +25,7 @@ app.config.from_object('config')
 db = SQLAlchemy(app)
 migrate = Migrate(app , db)
 
-# TODO: connect to a local postgresql database
+# done: connect to a local postgresql database
 
 #----------------------------------------------------------------------------#
 # Models.
@@ -57,17 +58,17 @@ class Artist(db.Model):
     image_link = db.Column(db.String(500))
     facebook_link = db.Column(db.String(120))
 
-    # TODO: implement any missing fields, as a database migration using Flask-Migrate
+    # done: implement any missing fields, as a database migration using Flask-Migrate
 
 class Show(db.Model):
   __tablename__ = 'Show'
 
   id = db.Column(db.Integer, primary_key=True)
-  Artistid = db.Column(db.Integer, nullable=False)
-  Venueid = db.Column(db.Integer, nullable=False)
+  Artistid = db.Column(db.Integer, ForeignKey('Artist.id'), nullable=False)
+  Venueid = db.Column(db.Integer, ForeignKey('Venue.id'), nullable=False)
   Showdatetime = db.Column(db.DateTime(), nullable=False)
 
-# TODO Implement Show and Artist models, and complete all model relationships and properties, as a database migration.
+# Done Implement Show and Artist models, and complete all model relationships and properties, as a database migration.
 
 #----------------------------------------------------------------------------#
 # Filters.
@@ -183,6 +184,7 @@ def search_venues():
 def show_venue(venue_id):
   # shows the venue page with the given venue_id
   # TODO: replace with real venue data from the venues table, using venue_id
+  venuedata = Venue.query.filter_by(id = venue_id).all()
   data1={
     "id": 1,
     "name": "The Musical Hop",
