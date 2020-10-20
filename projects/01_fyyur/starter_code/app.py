@@ -109,15 +109,13 @@ def venues():
   print('----------')
   print(listcities[0].city,listcities[1].city)
   print('----------')
-  # TODO: replace with real venues data.
+  # done: replace with real venues data.
   #       num_shows should be aggregated based on number of upcoming shows per venue.
   number = Venue.query.count()
   z=[]
   data=[]
-  
+  q = []
   for f in listcities:
-    data.clear()
-    liststate.clear()
     liststate = Venue.query.filter_by(city = f.city).distinct(Venue.state).all()
     print(liststate)
     print(f.city)
@@ -129,8 +127,8 @@ def venues():
       print(listvenue)
       print(r.state,r.city,r.id)
       print('s----------')
-      z.clear()
       for g in listvenue:
+
         #data.extend(data)
         #z.extend(z)
         print(g)
@@ -142,22 +140,18 @@ def venues():
           "name": g.name,
           "num_upcoming_shows": number,
           })
-        
-        data.append({ "city": f.city, "state": r.state, "venues": z})
         #data = [{ "city": f.city, "state": r.state, "venues": z}]
         print('loop 2')
+        
+        #q = data.copy
+        
+      data.append({ "city": f.city, "state": r.state, "venues": z})  
       print('loop 1')
       print(data)
-      # print(data)
-      # data.extend(data)
-      # print('after dataextend')
-      # print(data)
-      #, {
-      #  "id": 2,
-      #  "name": x[1].name,
-      #  "num_upcoming_shows": 1,
-      #}]
-      #}]
+      break
+      
+  #q.append(data)
+  print(q)
   
   #, {
   #  "city": "New York",
