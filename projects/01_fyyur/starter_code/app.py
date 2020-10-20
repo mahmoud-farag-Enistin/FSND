@@ -97,29 +97,77 @@ def index():
 
 @app.route('/venues')
 def venues():
+  venues = Venue.query.all()
+  listcities=[]
+  liststate=[]
+  listvenue=[]
+  listcities.clear()
+  listcities = Venue.query.distinct(Venue.city).all()
+  print(venues)
+  print('----------')
+  print(listcities)
+  print('----------')
+  print(listcities[0].city,listcities[1].city)
+  print('----------')
   # TODO: replace with real venues data.
   #       num_shows should be aggregated based on number of upcoming shows per venue.
-  data=[{
-    "city": "San Francisco",
-    "state": "CA",
-    "venues": [{
-      "id": 1,
-      "name": "The Musical Hop",
-      "num_upcoming_shows": 0,
-    }, {
-      "id": 3,
-      "name": "Park Square Live Music & Coffee",
-      "num_upcoming_shows": 1,
-    }]
-  }, {
-    "city": "New York",
-    "state": "NY",
-    "venues": [{
-      "id": 2,
-      "name": "The Dueling Pianos Bar",
-      "num_upcoming_shows": 0,
-    }]
-  }]
+  number = Venue.query.count()
+  z=[]
+  data=[]
+  
+  for f in listcities:
+    data.clear()
+    liststate.clear()
+    liststate = Venue.query.filter_by(city = f.city).distinct(Venue.state).all()
+    print(liststate)
+    print(f.city)
+    print('----f')
+    for r in liststate:
+      listvenue.clear()
+      listvenue =     Venue.query.filter_by(city = f.city , state = r.state).all()
+      print('list of venues')
+      print(listvenue)
+      print(r.state,r.city,r.id)
+      print('s----------')
+      z.clear()
+      for g in listvenue:
+        #data.extend(data)
+        #z.extend(z)
+        print(g)
+        # y=0
+        # print(y)
+        # print('ybeforez')
+        z.append({
+          "id": g.id,
+          "name": g.name,
+          "num_upcoming_shows": number,
+          })
+        
+        data.append({ "city": f.city, "state": r.state, "venues": z})
+        #data = [{ "city": f.city, "state": r.state, "venues": z}]
+        print('loop 2')
+      print('loop 1')
+      print(data)
+      # print(data)
+      # data.extend(data)
+      # print('after dataextend')
+      # print(data)
+      #, {
+      #  "id": 2,
+      #  "name": x[1].name,
+      #  "num_upcoming_shows": 1,
+      #}]
+      #}]
+  
+  #, {
+  #  "city": "New York",
+  #  "state": "NY",
+  #  "venues": [{
+  #    "id": 2,
+  #    "name": "The Dueling Pianos Bar",
+  #    "num_upcoming_shows": 0,
+  #  }]
+  #}]
   return render_template('pages/venues.html', areas=data);
 
 @app.route('/venues/search', methods=['POST'])
@@ -540,9 +588,9 @@ def create_show_submission():
     venuesenid = request.form.get('venue_id','')
     showtime = request.form.get('start_time','')
     # on successful db insert, flash success
-    flash('Before')
+    
     show = Show(Artistid=artistenid,Venueid=venuesenid,Showdatetime=showtime)
-    flash('After')
+    
     db.session.add(show)
     db.session.commit()
     flash('Show was successfully listed!')
