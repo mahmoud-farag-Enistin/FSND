@@ -129,7 +129,7 @@ def venues():
       print(r.state,r.city,r.id)
       print('s----------')
       for g in listvenue:
-
+        
         #data.extend(data)
         #z.extend(z)
         print(g)
